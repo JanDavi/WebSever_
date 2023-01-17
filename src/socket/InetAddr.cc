@@ -3,7 +3,7 @@
 
 using namespace web;
 
-InetAddr::InetAddr(uint16_t port)
+web::InetAddr::InetAddr(uint16_t port)
 {
     bzero(&addr_, sizeof(addr_));
     addr_.sin_family = AF_INET;
@@ -11,7 +11,7 @@ InetAddr::InetAddr(uint16_t port)
     addr_.sin_port = htons(port);
 }
 
-InetAddr::InetAddr(std::string ip, uint16_t port)
+web::InetAddr::InetAddr(std::string ip, uint16_t port)
 {
     bzero(&addr_, sizeof(addr_));
     addr_.sin_family = AF_INET;

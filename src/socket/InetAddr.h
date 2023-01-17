@@ -2,8 +2,12 @@
 #define SRC_SOCKET_INETADDR_H
 
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <string>
 #include <cstring>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 namespace web
 {
@@ -22,6 +26,8 @@ public:
     {}
 
     ~InetAddr() = default;
+
+    struct sockaddr_in* addr() { return &addr_; }
 };
 
 }; // namespace web
