@@ -62,6 +62,44 @@ std::string web::Buffer::retrieveAllToStr()
     return str;
 }
 
+ssize_t web::Buffer::writeFd(int fd, int *saveErrno)
+{
+    ssize_t len = write(fd, readPos(), readableBytes());
+    if(len < 0)
+    {
+        *saveErrno = errno;
+        return len;
+    }
+    retrieve(len);
+    return len;
+}
+
+ssize_t web::Buffer::readFd(int fd, int *saveErrno)
+{
+    char buff[65535];
+    struct iovec iov[2];
+
+    const size_t writable = writeableBytes();
+    /* 分散读， 保证数据全部读完 */
+    iov[0].iov_base = writePos();
+    iov[0].iov_len = writable;
+    iov[1].iov_base = buff;
+    iov[1].iov_len = sizeof(buff);
+
+    const ssize_t len = readv(fd, iov, 2);
+    if(len < 0) {
+        *saveErrno = errno;
+    }
+    else if(static_cast<size_t>(len) <= writable) {
+        writePos_ += len;
+    }
+    else {
+        writePos_ = buffer_.size();
+        append(buff, len - writable);
+    }
+    return len;
+}
+
 void web::Buffer::retrieveUntil(const char* end)
 {
     retrieve(end - readPos());

@@ -36,8 +36,6 @@ private:
         CLOSED_CONNECTION,
     };
 
-    
-
     // 请求方法
     std::string method_;
     // 请求路径
@@ -48,7 +46,7 @@ private:
     std::unordered_map<std::string, std::string> requestHeader_;
     // 请求体
     std::unordered_map<std::string, std::string> requestBody_;
-
+    // 默认html页面
     static const std::unordered_set<std::string> DEFAULT_HTML;
     
     // 解析状态

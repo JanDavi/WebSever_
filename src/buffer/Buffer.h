@@ -5,6 +5,13 @@
 #include <iostream>
 #include <atomic>
 #include <sys/uio.h> //readv
+#include <cstring>   //perror
+#include <iostream>
+#include <unistd.h>  // write
+#include <sys/uio.h> //readv
+#include <vector> //readv
+#include <atomic>
+#include <assert.h>
 
 namespace web
 {
@@ -43,6 +50,9 @@ public:
     void retrieveAll();
     void retrieveUntil(const char* end);
     std::string retrieveAllToStr();
+
+    ssize_t writeFd(int fd, int* saveErrno);
+    ssize_t readFd(int fd, int* saveErrno);
 };
 
 };
